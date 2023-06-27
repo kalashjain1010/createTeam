@@ -1,4 +1,5 @@
-import { Avatar, Box, Button, Code, Stack } from "@chakra-ui/react";
+import {  Box, Button, Code, Stack } from "@chakra-ui/react";
+import Avatar from "components/profile/Avatar";
 import { useAuth } from "hooks/auth";
 import { PROTECTED, USERS } from "lib/routes";
 import React from "react";
@@ -11,7 +12,7 @@ function ActiveUser() {
 
   return (
     <Stack align={"center"}>
-      <Avatar />
+      <Avatar user={user}/>
       <Code>@{user.username}</Code>
       <Button
         colorScheme="teal"
