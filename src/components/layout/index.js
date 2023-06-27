@@ -2,7 +2,9 @@ import { LOGIN } from 'lib/routes';
 import React, { useEffect } from 'react'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from 'hooks/auth';
-import Navbar from 'components/navbar';
+import Navbar from 'components/layout/Navbar';
+import Sidebar from './Sidebar';
+import { Box, Flex } from '@chakra-ui/react';
 
 function Layout() {
     const {pathname} = useLocation();
@@ -19,7 +21,13 @@ function Layout() {
   return (
     <>
     <Navbar/>
+    <Flex pt={16} pb={12} mx="auto" w="full" maxWidth={"1200px"}>
+    <Box w={"900px"}>
+
     <Outlet/>
+    </Box>
+    <Sidebar/>
+    </Flex>
     </>
   )
 }
