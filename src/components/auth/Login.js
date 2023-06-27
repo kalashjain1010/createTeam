@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 import {
   Box,
   Button,
@@ -11,14 +11,33 @@ import {
   Link,
   Text,
 } from "@chakra-ui/react";
-import { REGISTER } from 'lib/routes';
-import { Link as RouterLink } from 'react-router-dom';
+import { DASHBOARD, REGISTER } from "lib/routes";
+import { Link as RouterLink } from "react-router-dom";
+import { useLogin } from "hooks/auth";
+import { useForm } from "react-hook-form";
+import { emailValidate, passwordValidate } from "utils/form-validate";
+
 function Login() {
-  // // const { login, isLoading } = useLogin();
+  const { login, isLoading } = useLogin();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
+
+  async function handleLogin(data) {
+    const succeeded = await login({
+      email: data.email,
+      password: data.password,
+      redirectTo: DASHBOARD,
+    });
+    if (succeeded) reset();
+  }
   // const {
   //   register,
   //   handleSubmit,
-  //   formState: { errors },
+  //   ,
   // } = useForm();
 
   return (
@@ -28,27 +47,25 @@ function Login() {
           Log In
         </Heading>
 
-        <form onSubmit={false}>
-          <FormControl isInvalid={true} py="2">
+        <form onSubmit={handleSubmit(handleLogin)}>
+          <FormControl isInvalid={errors.email} py="2">
             <FormLabel>Email</FormLabel>
             <Input
               type="email"
               placeholder="user@email.com"
-              // {...register("email", emailValidate)}
+              {...register("email", emailValidate)}
             />
-            <FormErrorMessage>
-              
-            </FormErrorMessage>
+            <FormErrorMessage>{errors.email && errors.email.message}</FormErrorMessage>
           </FormControl>
-          <FormControl isInvalid={false} py="2">
+          <FormControl isInvalid={errors.password} py="2">
             <FormLabel>Password</FormLabel>
             <Input
               type="password"
               placeholder="password123"
-              // {...register("password", passwordValidate)}
+              {...register("password", passwordValidate)}
             />
             <FormErrorMessage>
-              {/* {errors.password && errors.password.message} */}
+              {errors.password && errors.password.message}
             </FormErrorMessage>
           </FormControl>
           <Button
@@ -57,14 +74,14 @@ function Login() {
             colorScheme="teal"
             size="md"
             w="full"
-            isLoading={true}
+            // isLoading={true}
             loadingText="Logging In"
           >
             Log In
           </Button>
         </form>
 
-       <Text fontSize="xlg" align="center" mt="6">
+        <Text fontSize="xlg" align="center" mt="6">
           Don't have an account?{" "}
           <Link
             as={RouterLink}
@@ -77,10 +94,10 @@ function Login() {
             Register
           </Link>{" "}
           instead!
-        </Text> 
+        </Text>
       </Box>
     </Center>
-  )
+  );
 }
 
-export default Login
+export default Login;
