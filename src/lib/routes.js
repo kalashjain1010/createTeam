@@ -8,6 +8,8 @@ export const LOGIN = "/login";
 export const REGISTER = "/register";
 export const PROTECTED = "/protected"
 export const DASHBOARD = "/protected/dashboard"
+export const USERS = "/protected/users"
+export const PROFILE = "/protected/profile/:id"
 
 export const router = createBrowserRouter([
     {path: ROOT, element: "hello"},
@@ -19,6 +21,15 @@ export const router = createBrowserRouter([
         children: [{
             path: DASHBOARD,
             element:"teri maa",
-        }]
+        },
+        {
+            path: USERS,
+            element:"sdsd maa",
+        },
+        {
+            path: PROFILE,
+            element:"PROFILE ID sdsd maa",
+        }
+    ]
     }
 ])
