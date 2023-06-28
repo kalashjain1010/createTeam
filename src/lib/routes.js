@@ -3,6 +3,7 @@ import Login from "../components/auth/Login";
 import Register from "components/auth/Register";
 import Layout from "components/layout";
 import Dashboard from "components/dashboard";
+import LandingPage from "components/layout/Lamding";
 
 export const ROOT = "/";
 export const LOGIN = "/login";
@@ -13,7 +14,7 @@ export const USERS = "/protected/users"
 export const PROFILE = "/protected/profile/:id"
 
 export const router = createBrowserRouter([
-    {path: ROOT, element: "hello"},
+    {path: ROOT, element: <LandingPage/>},
     {path: LOGIN, element: <Login/>},
     {path: REGISTER, element: <Register/>},
     {
