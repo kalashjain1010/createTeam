@@ -1,21 +1,22 @@
 import { Box, Button, HStack, Heading, Textarea } from "@chakra-ui/react";
+import PostLists from "components/post/PostLists";
 import { useAuth } from "hooks/auth";
-import { useAddPost } from "hooks/posts";
+import { useAddPost, usePosts } from "hooks/posts";
 import React from "react";
 import { useForm } from "react-hook-form";
 import TextAreaAutoSize from "react-textarea-autosize";
 
-function Dashboard() {
+function NewPost(){
   const { register, handleSubmit, reset } = useForm();
-  const {addPost, isLoading: addingPost} = useAddPost();
-  const {user, isLoading: authLoading} = useAuth();
+  const { addPost, isLoading: addingPost } = useAddPost();
+  const { user, isLoading: authLoading } = useAuth();
 
   function handleAddPost(data) {
     // console.log(data);
     addPost({
-      uid:user.id,
+      uid: user.id,
       text: data.text,
-    })
+    });
     reset();
   }
 
@@ -24,7 +25,12 @@ function Dashboard() {
       <form onSubmit={handleSubmit(handleAddPost)}>
         <HStack justify={"space-between"}>
           <Heading size={"lg"}>New post</Heading>
-          <Button colorScheme="teal" type="submit" isLoading={authLoading || addingPost} loadingText="Loading">
+          <Button
+            colorScheme="teal"
+            type="submit"
+            isLoading={authLoading || addingPost}
+            loadingText="Loading"
+          >
             Post
           </Button>
         </HStack>
@@ -34,10 +40,20 @@ function Dashboard() {
           mt={"5"}
           placeholder="Create a Post.."
           minRows={3}
-          {...register("text",{ required:true})}
+          {...register("text", { required: true })}
         />
       </form>
     </Box>
+  );
+}
+
+function Dashboard() {
+  const {posts,isLoading: postsLoading} = usePosts();  
+  return (
+    <>
+    <NewPost/>
+    <PostLists posts={posts} />
+    </>
   );
 }
 
